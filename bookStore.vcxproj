@@ -18,6 +18,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="manage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Append.cpp" />
+    <ClCompile Include="CreateTxt.cpp" />
+    <ClCompile Include="endMark.cpp" />
+    <ClCompile Include="Initial.cpp" />
+    <ClCompile Include="Inquire.cpp" />
+    <ClCompile Include="manage.cpp" />
+    <ClCompile Include="Sale.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{6CC79688-FD68-4014-813E-619EB6355F4F}</ProjectGuid>
@@ -138,8 +150,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
