@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="guest.h" />
     <ClInclude Include="manage.h" />
     <ClInclude Include="pubUse.h" />
     <ClInclude Include="UI.h" />
@@ -28,6 +29,7 @@
     <ClCompile Include="Append.cpp" />
     <ClCompile Include="CreateTxt.cpp" />
     <ClCompile Include="endMark.cpp" />
+    <ClCompile Include="guest.cpp" />
     <ClCompile Include="Initial.cpp" />
     <ClCompile Include="Inquire.cpp" />
     <ClCompile Include="manage.cpp" />

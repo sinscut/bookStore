@@ -11,5 +11,6 @@ public:
 	void logIn();
 	void guest(user guest);
 	void manager(user manager);
+	void inquire();
 };
 
