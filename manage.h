@@ -1,8 +1,5 @@
 #pragma once //防止重定义,作用与#ifndef相同,由编译器支持(宏定义由语言支持,兼容性更好)
-#include<iostream>
-#include<fstream>
-#include<string>
-using namespace std;
+#include"pubUse.h"
 struct bookData //账目结构
 {
 	string TP;//书号

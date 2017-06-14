@@ -20,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="manage.h" />
+    <ClInclude Include="pubUse.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Append.cpp" />
@@ -29,6 +32,7 @@
     <ClCompile Include="Inquire.cpp" />
     <ClCompile Include="manage.cpp" />
     <ClCompile Include="Sale.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
