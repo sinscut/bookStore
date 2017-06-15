@@ -74,6 +74,7 @@ int endMark(book book)
 		return -1;
 	}
 }*/
+
 //判断库存中是否有要查找的书
 bool inStock(book toBeFound)
 {
@@ -89,11 +90,12 @@ bool inStock(book toBeFound)
 	return false;
 	//file生存期结束应该会自动关闭文件
 }
+
 const int cat = 0;
 const int name = 1;
 const int author = 2;
 //flag为查询方式
-void commonFind(int flag)
+int commonFind(int flag)
 {
 	book temp;
 	int none = 1;
@@ -142,4 +144,16 @@ void commonFind(int flag)
 		}//switch
 	} while (!endMark(temp));
 	if (none) cout << "未找到相关书籍...\n";
+	return none;
+}
+void showAll()
+{
+	book temp;
+	fstream file(stock, ios::in | ios::binary);//打开库存文件
+	file.seekg(0, ios::beg);
+	do
+	{
+		file.read((char*)&temp, sizeof(book));
+		if (!endMark(temp)) temp.show();
+	} while (!endMark(temp));
 }

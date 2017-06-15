@@ -41,7 +41,11 @@ void guest::inquire()
 	cout << "请选择查找方式:\n\n"
 		<< "<0>分类查找\n"
 		<< "<1>查找书名\n"
-		<< "<2>查找作者\n\n";
+		<< "<2>查找作者\n"
+		<< "<3>显示全部\n\n";
 	cin >> choice;
-	commonFind(choice);
+	if (choice == 3)
+		showAll();
+	else 
+		commonFind(choice);
 }
