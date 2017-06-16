@@ -1,5 +1,6 @@
 #pragma once //防止重定义,作用与#ifndef相同,由编译器支持(宏定义由语言支持,兼容性更好)
 #include"pubUse.h"
+#if(1)
 struct bookData //账目结构
 {
 	string TP;//书号
@@ -13,3 +14,4 @@ void Sale(const string filename);//销售
 void Inquire(const string filename);//查询
 void CreateTxt(const string filename);//创建文本文件
 int endMark(bookData book);//判断空标志记录,即判断文件结束
+#endif // !0

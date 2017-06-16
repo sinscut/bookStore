@@ -7,7 +7,7 @@ void Sale(string filename)
 	string key;//查找书号
 	long num;//销量
 	fstream file(filename, ios::in | ios::out | ios::binary);//以读/写方式打开
-	cout << "***************销售登记***************\n";
+	cout << "\n***************销售***************\n";
 	while (true)
 	{
 		cout << "请输入操作选择\n";

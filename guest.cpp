@@ -7,6 +7,10 @@ guest::guest()
 	name = "noname";
 	TEL = "0";
 }
+guest::~guest()
+{
+
+}
 void guest::want()
 {
 	book temp;
@@ -26,11 +30,12 @@ void guest::want()
 		cin >> name;
 		cout << "$电话:";
 		cin >> TEL;
-		fstream file(notification, ios::out);
+		fstream file(notifications, ios::app);
 		file << "读者反馈:\n"
 			<< "希望上架的图书:" << "《" << temp.name << "》" << "\t" << "作者:" << temp.author << "\n"
 			<< "读者信息:\n"
-			<< "姓名:\t" << name << "电话:\t" << TEL;
+			<< "姓名:\t" << name << "电话:\t" << TEL<<endl
+			<<"@\n";//消息结束标志
 		cout << "登记成功!";
 		//生存期结束自动关闭文件
 	}
@@ -44,8 +49,5 @@ void guest::inquire()
 		<< "<2>查找作者\n"
 		<< "<3>显示全部\n\n";
 	cin >> choice;
-	if (choice == 3)
-		showAll();
-	else 
-		commonFind(choice);
+	commonFind(choice);
 }

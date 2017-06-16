@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="guest.h" />
     <ClInclude Include="manage.h" />
+    <ClInclude Include="manager.h" />
     <ClInclude Include="pubUse.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="user.h" />
@@ -33,6 +34,7 @@
     <ClCompile Include="Initial.cpp" />
     <ClCompile Include="Inquire.cpp" />
     <ClCompile Include="manage.cpp" />
+    <ClCompile Include="manager.cpp" />
     <ClCompile Include="Sale.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
