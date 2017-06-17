@@ -1,6 +1,17 @@
 #include<iostream>
 #include"bookStruct.h"
-book::book() { TP = "0"; category = "0"; name = "0"; author = "0"; intro = "0"; pos = "0"; price = 0; balance = 0; saled = 0; }
+book::book()
+{ 
+	TP = "0"; 
+	category = "0"; 
+	name = "0"; 
+	author = "0"; 
+	intro = "0"; 
+	pos = "0"; 
+	price = 0; 
+	balance = 0; 
+	saled = 0;
+}
 void book::show()//显示详细信息,与其他内容以空行分割
 {
 	cout << "\n类别: " << category << "书名: " << "《" << name << "》" << "作者: " << author << endl;

@@ -22,7 +22,7 @@ void manager::logIn()
 		initial(guanliyuan);
 		return;
 	}
-	cout << "**************************登录**************************\n";
+	cout << "*************************登录*************************\n";
 	file.seekg(0, ios::beg);
 	file.read((char*)&temp, sizeof(manager));
 	if (temp.ID == "0")
@@ -271,6 +271,7 @@ void manager::analyse()
 	cout << endl;
 	cout << "销售日志在d:\\salelog.txt, 要浏览吗?(0/1)\n";
 	int choice;
+	cin >> choice;
 	if (choice)
 		checkSales();
 }
@@ -362,3 +363,53 @@ void manager::user()
 
 }
 int manager::getRights() { return rights; }
+
+//all=3,guanliyuan=4,kucun=5,tongzhi=6,xiaoshou=7
+void initial(int flag)
+{
+	switch (flag)
+	{
+	default:
+		break;
+	case all:
+	{
+		initial(kucun);
+		initial(tongzhi);
+		initial(xiaoshou);
+		initial(guanliyuan);
+		break;
+	}
+	case kucun:
+	{
+		book temp;
+		fstream file(stock, ios::out | ios::trunc | ios::binary);
+		file.seekp(0, ios::beg);
+		file.write((char*)&temp, sizeof(book));
+		cout << "已初始化库存!\n";
+		break;
+	}
+	case tongzhi:
+	{
+		fstream file(notifications, ios::out | ios::trunc);
+		cout << "已清空通知!\n";
+		break;//暂时先不管文件结束的问题
+	}
+	case guanliyuan:
+	{
+		manager tempM;
+		fstream file(managers, ios::out | ios::trunc | ios::binary);
+		file.write((char*)&tempM, sizeof(manager));
+		//初始化成功,按任意键重启程序
+		cout << "初始化成功,请重新启动程序\n"
+			<< "按任意键继续...\n";
+		system("pause");
+		exit(0);
+	}
+	case xiaoshou:
+	{
+		//清空销售日志
+		fstream file(saleLogs, ios::out | ios::trunc);
+		cout << "已清空销售日志!\n";
+	}
+	}
+}
