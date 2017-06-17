@@ -32,7 +32,7 @@ void manager::logIn()
 		cin >> ID;
 		cout << "$密码:";
 		cin >> password;
-		rights = 0;
+		rights = 2;
 		file.seekp(-long(sizeof(manager)), ios::cur);
 		file.write((char*)this, sizeof(manager));
 		cout << "配置成功!";
@@ -126,45 +126,80 @@ void manager::notification()
 	char choice;
 	string line;
 	fstream noti(notifications, ios::in);
-	getline(noti, line, '@');//消息结束标记
-	//if(line=="#")//文件结束标记
-	
+	if(!noti.eof())
+		getline(noti, line, '@');//@消息结束标记
+	else
+	{
+		cout << "无通知,按任意键退出...\n";
+		system("pause");
+		return;
+	}
 	cout << "请选择操作:" << "1:下一条\t" << "2:清空\t"<<"3:退出\n$";
-	while(true)
+	while(!noti.eof())//文件未结束
 	{
 		cin >> choice;
 		switch (choice)
 		{
-		default:cout << "输入错误请重新输入...\n$";
+		default:
+			cout << "输入错误请重新输入...\n$";
 			break;
 		case 1:
 			getline(noti, line, '@');//如何判断到达文件尾呢?初始化时加一行"#@"?
-			cout << line;
-		case 2:initial(tongzhi);
+			cout << line << endl; break;
+		case 2:
+			initial(tongzhi);
+			cout << "无通知,按任意键退出...\n";
+			system("pause");
+			return;
 		case 3:return;
 		}
 	}
+	cout << "已显示全部通知,按任意键退出...\n";
+	system("pause");
+	return;
 }
-
+//查看,增加,修改,删除,清空库存.除查看外都需要高级权限
 void manager::viewStock()
 {
 	int choice;
 	book temp;
 	while(true)
 	{
-		cout << "***************************查看****************************\n";
-		cout << "请选择操作:" << "1:查看库存\t" << "2:清空\t" << "3:退出\n$";
+		cout << "***************************库存管理****************************\n";
+		cout << "请选择操作:"//不如先全部读到链表里
+			<< "1:查看\n"
+			<< "2:增加\n"
+			<< "3:修改\n"
+			<< "4:删除\n"
+			<< "5:清空\n"
+			<< "6:退出\n\n$";
 		cin >> choice;
+		if (choice <= 6 && choice >= 1)
+			system("cls");
 		switch (choice)
 		{
 		default:cout << "输入错误,请重新输入...\n";
 			break;
 		case 1:commonFind(all); break;
-		case 2:initial(kucun); break;
-		case 3:return;
+		case 2:
+			if(rights==2)
+				edit(add);
+			else cout << "需要超级用户权限!\n";
+			break;
+		case 3:
+			if (rights == 2)
+				edit(amend);
+			else cout << "需要超级用户权限!\n";
+			break;
+		case 4:
+			if (rights == 2)
+				edit(cutOut);
+			else cout << "需要超级用户权限!\n";
+			break;
+		case 5:initial(kucun); break;
+		case 6:return;
 		}
-		system("pause");
-		system("cls");
+		cleanScreen();
 	}
 }
 //统计销量最佳,总销售额,最畅销分类
@@ -219,8 +254,90 @@ void manager::analyse()
 	cout << endl;
 
 }
-//权限还是统一在主函数控制吧,这里只写功能
+//用户管理, 修改密码, 增加用户, 删除用户(权限降为0)
 void manager::user()
 {
+	int choice;
+	string tempID;
+	manager temp;
+	fstream file(managers, ios::in | ios::out | ios::binary);
+	while (true)
+	{
+		file.seekg(0, ios::beg);
+		cout << "***********************用户管理***********************\n"
+			<< "请选择操作:\n"
+			<< "1.修改密码\n"
+			<< "2.增加用户\n"
+			<< "3.删除用户\n"
+			<< "4.退出";
+		cin >> choice;
+		switch (choice)
+		{
+		default:
+			break;
+		case 1:
+			if(rights==1||rights==2)
+			{
+				do
+				{
+					file.read((char*)&temp, sizeof(manager));
+				} while (temp.ID != ID);
+				cout << "请输入新密码:\n$";
+				cin >> temp.password;
+				file.seekp(-long(sizeof(manager)), ios::cur);
+				file.write((char*)&temp, sizeof(manager));
+				cout << "修改密码成功!\n";
+			}
+			break;
+		case 2:
+			if (rights == 2)
+			{
+				file.seekp(-long(sizeof(manager)), ios::end);//这里指针该退几步还要试一下
+				cout << "$输入用户名:";
+				cin >> temp.ID;
+				cout << "$输入密码:";
+				cin >> temp.password;
+				cout << "配置权限,1为普通用户,2为超级用户\n$";
+			L:
+				cin >> choice;
+				if (choice != 1 || choice != 2)
+				{
+					cout << "输入错误!\n$请重新输入:";
+					goto L;
+				}
+				else
+				{
+					temp.rights = choice;
+					file.write((char*)&temp, sizeof(manager));
+					cout << "增加用户" << temp.ID << "成功!\n";
+				}
+			}
+			else cout << "需要超级用户权限!\n";
+			break;
+		case 3:
+			if (rights == 2)
+			{
+				cout << "$输入要删除的ID:";
+				cin >> tempID;
+				do
+				{
+					file.read((char*)&temp, sizeof(manager));
+				} while (temp.ID != tempID&&temp.ID!="0");
+				if(temp.ID!="0")
+				{
+					temp.rights = 0;
+					file.seekp(-long(sizeof(manager)), ios::cur);
+					file.write((char*)&temp, sizeof(manager));
+					cout << "删除用户" << temp.ID << "成功!\n";
+				}
+				else cout << "该用户不存在!\n";
+			}
+			else cout << "需要超级用户权限!\n";
+			break;
+		case 4:
+			return;
+		}
+		cleanScreen();
+	}
 
 }

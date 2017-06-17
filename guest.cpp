@@ -43,11 +43,17 @@ void guest::want()
 void guest::inquire()
 {
 	int choice;
-	cout << "请选择查找方式:\n\n"
-		<< "<0>分类查找\n"
-		<< "<1>查找书名\n"
-		<< "<2>查找作者\n"
-		<< "<3>显示全部\n\n";
-	cin >> choice;
-	commonFind(choice);
+	while (true)
+	{
+		cout << "请选择查找方式:\n\n"
+			<< "<0>分类查找\n"
+			<< "<1>查找书名\n"
+			<< "<2>查找作者\n"
+			<< "<3>显示全部\n"
+			<< "<4>退出";
+		cin >> choice;
+		if (choice == 4)
+			return;
+		commonFind(choice);
+	}
 }

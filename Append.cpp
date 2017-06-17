@@ -36,9 +36,9 @@ void Append(string filename)
 			file.seekp(-long(sizeof(bookData)), ios::cur);
 			cout << "分行输入书号(TP),书名,数量\n?";
 			cin >> book.TP;
-			cout << '?';
+			cout << '$';
 			cin >> book.name;
-			cout << '?';
+			cout << '$';
 			cin >> book.balance;
 			file.write((char*)&book, sizeof(bookData));//写入记录
 			file.write((char*)&mark, sizeof(bookData));//写入结束标志
