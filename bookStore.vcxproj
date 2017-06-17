@@ -19,24 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bookStruct.h" />
     <ClInclude Include="guest.h" />
-    <ClInclude Include="manage.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="pubUse.h" />
-    <ClInclude Include="UI.h" />
-    <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Append.cpp" />
-    <ClCompile Include="CreateTxt.cpp" />
-    <ClCompile Include="endMark.cpp" />
+    <ClCompile Include="bookStore.cpp" />
+    <ClCompile Include="bookStruct.cpp" />
     <ClCompile Include="guest.cpp" />
-    <ClCompile Include="Initial.cpp" />
-    <ClCompile Include="Inquire.cpp" />
-    <ClCompile Include="manage.cpp" />
     <ClCompile Include="manager.cpp" />
-    <ClCompile Include="Sale.cpp" />
-    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

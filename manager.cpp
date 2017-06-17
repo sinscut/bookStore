@@ -22,7 +22,7 @@ void manager::logIn()
 		initial(guanliyuan);
 		return;
 	}
-	cout << "****************登录********************\n";
+	cout << "**************************登录**************************\n";
 	file.seekg(0, ios::beg);
 	file.read((char*)&temp, sizeof(manager));
 	if (temp.ID == "0")
@@ -62,6 +62,13 @@ void manager::logIn()
 	cout << "你已连续3次登录失败,请稍后重试!\n";
 }
 
+void manager::logOut()
+{
+	ID = "0";
+	password = "0";
+	rights = 0;
+}
+
 void manager::sale()
 {
 	char choice;//选择
@@ -69,9 +76,9 @@ void manager::sale()
 	string key;//查找书号
 	long num;//销量
 	fstream file(stock, ios::in | ios::out | ios::binary);//以读/写方式打开
-	cout << "\n***************销售***************\n";
 	while (true)
 	{
+		cout << "\n***********************销售*************************\n";
 		cout << "请选择操作:"<< "1:销售登记\t" << "Q:退出\n$";
 		cin >> choice;
 		switch (choice)
@@ -95,6 +102,10 @@ void manager::sale()
 				if (num > 0 && bookTemp.balance >= num)
 				{
 					bookTemp.balance -= num;
+					string now;
+					getTime(now);//获取时间戳
+					fstream sales(saleLogs, ios::app);
+					sales << now << "卖出 " << bookTemp.name << " " << num << "本." << "售价 " << bookTemp.price << "@";
 					if (bookTemp.balance == 0)
 					{
 						fstream noti(notifications, ios::app);
@@ -118,11 +129,13 @@ void manager::sale()
 		case 'Q':
 		case 'q':return;
 		}//switch
+		cleanScreen();
 	}//while
 }
 
 void manager::notification()
 {
+	cout << "**************************通知*****************************\n";
 	char choice;
 	string line;
 	fstream noti(notifications, ios::in);
@@ -134,6 +147,7 @@ void manager::notification()
 		system("pause");
 		return;
 	}
+	cout << line << endl;
 	cout << "请选择操作:" << "1:下一条\t" << "2:清空\t"<<"3:退出\n$";
 	while(!noti.eof())//文件未结束
 	{
@@ -145,13 +159,15 @@ void manager::notification()
 			break;
 		case 1:
 			getline(noti, line, '@');//如何判断到达文件尾呢?初始化时加一行"#@"?
-			cout << line << endl; break;
+			cout << line << endl;
+			break;
 		case 2:
 			initial(tongzhi);
 			cout << "无通知,按任意键退出...\n";
 			system("pause");
 			return;
-		case 3:return;
+		case 3:
+			return;
 		}
 	}
 	cout << "已显示全部通知,按任意键退出...\n";
@@ -205,6 +221,7 @@ void manager::viewStock()
 //统计销量最佳,总销售额,最畅销分类
 void manager::analyse()
 {
+	cout << "*************************统计**************************\n";
 	book temp;
 	book popular;
 	string popCat;
@@ -252,7 +269,10 @@ void manager::analyse()
 	if (temp1 == industry)
 		cout << "工业\t";
 	cout << endl;
-
+	cout << "销售日志在d:\\salelog.txt, 要浏览吗?(0/1)\n";
+	int choice;
+	if (choice)
+		checkSales();
 }
 //用户管理, 修改密码, 增加用户, 删除用户(权限降为0)
 void manager::user()
@@ -341,3 +361,4 @@ void manager::user()
 	}
 
 }
+int manager::getRights() { return rights; }

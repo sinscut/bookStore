@@ -2,10 +2,13 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<ctime>
 #include<conio.h>
 #include<cstdlib>
-#include<list>//标准库, 链表
+#include<list>//STL链表
 #include<algorithm>//STL算法库
+#include"bookStruct.h"
+#include"manager.h"
 using namespace std;
 const string stock = "d:\\stock.dat";//库存信息文件名
 const string managers = "d:\\managers.dat";//管理员信息文件名
@@ -27,57 +30,9 @@ int commonFind(int flag);//通用查找,flag为查询方式
 void initial(int flag);//初始化,flag为初始化方式,库存,管理员,通知,销售记录,全部
 void edit(int flag);//通用编辑
 void cleanScreen();//清屏
-struct book
-{
-	string TP;
-	string category;
-	string name;
-	string author;
-	string intro;//简介
-	string pos;//位置,例如1A架01层
-	int price;
-	int balance;
-	int saled;
-	book() { TP = "0"; category = "0"; name = "0"; author = "0"; intro = "0"; pos = "0"; price = 0; balance = 0; saled = 0; }
-	void show()//显示详细信息,与其他内容以空行分割
-	{
-		cout << "\n类别: " << category << "书名: " << "《" << name << "》" << "作者: " << author << endl;
-		cout << "书号: " << TP << "位置: " << pos << "价格:" << price << endl;
-		cout << "简介: " << intro<<"\n\n";
-		return;
-	}
-	void showSimple()
-	{
-		cout << "\n书号: " << TP << "书名: " << "《" << name << "》" << "作者: " << author << endl;
-	}
-	void set()
-	{
-		cout << "$类别: ";
-		cin >> category;
-		cout << "$书名: ";
-		cin >> name; 
-		cout << "$作者: ";
-		cin >> author;
-		cout << "$书号: ";
-		cin >> TP;
-		cout << "$位置: ";
-		cin >> pos;
-		cout << "$库存:";
-		cin >> balance;
-		cout << "$售价:";
-		cin >> price;
-		cout << "$简介: ";
-		cin >> intro;
-	}
-};
+void checkSales();//查看销售日志
+void getTime(string &now);//获取时间戳
 
-//const book bookEnd;//文件结束标记
-int endMark(book bookT)
-{
-	if (bookT.TP == "0")
-		return 1;
-	return 0;
-}
 
 //判断库存中是否有要查找的书
 bool inStock(book toBeFound)
@@ -119,41 +74,33 @@ int commonFind(int flag)
 		{
 		default:
 			break;
-		case cat:
-		{	
+		case cat:	
 			if (temp.category == answer)
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
-		}
 		case name:
-		{
 			if (temp.name == answer)
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
-		}
 		case author:
-		{
 			if (temp.author == answer)
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
-		}
 		case all:
-		{
 			if (!endMark(temp))
 			{
 				temp.showSimple();
 				none = 0;
 			}
-		}
 		}//switch
 	} while (!endMark(temp));
 	if (none) cout << "未找到相关书籍...\n";
@@ -172,6 +119,7 @@ void initial(int flag)
 		initial(tongzhi);
 		initial(xiaoshou);
 		initial(guanliyuan);
+		break;
 	}
 	case kucun:
 	{
@@ -190,9 +138,9 @@ void initial(int flag)
 	}
 	case guanliyuan:
 	{
-		manager temp;
+		manager tempM;
 		fstream file(managers, ios::out | ios::trunc|ios::binary);
-		file.write((char*)&temp, sizeof(manager));
+		file.write((char*)&tempM, sizeof(manager));
 		//初始化成功,按任意键重启程序
 		cout << "初始化成功,请重新启动程序\n"
 			<< "按任意键继续...\n";
@@ -202,7 +150,7 @@ void initial(int flag)
 	case xiaoshou:
 	{
 		//清空销售日志
-		//日志文件还是用TXT吧
+		fstream file(saleLogs, ios::out | ios::trunc);
 		cout << "已清空销售日志!\n";
 	}
 	}
@@ -212,9 +160,9 @@ typedef struct findBook
 
 {
 	findBook(string t): TP(t){}
-	bool operator()(book*p)
+	bool operator()(book p)
 	{
-		return (TP == p->TP);
+		return (TP == p.TP);
 	}
 	string	TP;
 }finder;
@@ -238,7 +186,7 @@ void edit(int flag)
 	default:
 		break;
 	case add:
-		temp.saled = 0;//以防万一, 因为book::set()不能设置saled;
+		temp.saled = 0;//以防万一, 因为book::set()不能设置saled
 		cout << "录入书籍信息:\n$";
 		temp.set();
 		fileOp.push_back(temp);
@@ -288,4 +236,33 @@ void cleanScreen()
 	cout << "按任意键继续...";
 	system("pause");
 	system("cls");
+}
+
+//查看销售日志
+void checkSales()
+{
+	string line;
+	fstream file(saleLogs, ios::in);
+	if (!file.eof())
+		getline(file, line, '@');//@消息结束标记
+	else
+	{
+		cout << "无销售记录,按任意键退出...\n";
+		system("pause");
+		return;
+	}
+	cout << line << endl;
+	while (!file.eof())
+	{
+		getline(file, line, '@');
+		cout << line << endl;
+	}
+}
+void getTime(string &now)
+{
+	time_t t;
+	char tme[32];
+	t = time(NULL);//获取当前时间
+	ctime_s(tme, 32, &t);
+	now = tme;
 }

@@ -15,54 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="user.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="pubUse.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="guest.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="manage.h">
+    <ClInclude Include="manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="manager.h">
+    <ClInclude Include="bookStruct.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="manage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Append.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateTxt.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="endMark.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Initial.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Inquire.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Sale.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="guest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="manager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bookStore.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bookStruct.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

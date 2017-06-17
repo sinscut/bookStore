@@ -14,7 +14,6 @@ guest::~guest()
 void guest::want()
 {
 	book temp;
-	string temp;
 	cout<< "请输入你希望上架的书籍信息...\n"
 		<<"书名\n$";
 	cin >> temp.name;
@@ -45,6 +44,7 @@ void guest::inquire()
 	int choice;
 	while (true)
 	{
+		cout << "**************************查询**************************\n";
 		cout << "请选择查找方式:\n\n"
 			<< "<0>分类查找\n"
 			<< "<1>查找书名\n"
@@ -55,5 +55,6 @@ void guest::inquire()
 		if (choice == 4)
 			return;
 		commonFind(choice);
+		cleanScreen();
 	}
 }
