@@ -38,9 +38,9 @@ void manager::logIn()
 		file.write((char*)this, sizeof(manager));
 		manager tempM;
 		file.write((char*)&tempM, sizeof(manager));
-		cout << "配置成功!";
-		cout << "按任意键返回上一级...\n";
+		cout << "配置成功!\n";
 		system("pause");
+		system("cls");
 		return;
 	}
 	while(num)
