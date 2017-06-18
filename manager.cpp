@@ -2,10 +2,11 @@
 
 manager::manager()
 {
-	ID = "0";
-	password = "0";
+	ID[0] = '\0';
+	password[0] = '\0';
 	rights = 0;
 }
+
 
 manager::~manager()
 {
@@ -25,7 +26,7 @@ void manager::logIn()
 	cout << "*************************登录*************************\n";
 	file.seekg(0, ios::beg);
 	file.read((char*)&temp, sizeof(manager));
-	if (temp.ID == "0")
+	if (strlen(temp.ID)==0)
 	{
 		cout << "首次登录需要配置超级用户信息...\n";
 		cout << "$用户名:";
@@ -52,10 +53,11 @@ void manager::logIn()
 		do
 		{
 			file.read((char*)&temp, sizeof(manager));
-			if (ID == temp.ID&&password == temp.password)
+			if (!strcmp(ID,temp.ID)&&!strcmp(password,temp.password))
 			{
 				rights = temp.rights;
 				cout << "登录成功!\n";
+				cleanScreen();
 				return;
 			}
 		} while (temp.rights != 0);
@@ -63,12 +65,13 @@ void manager::logIn()
 		num--;
 	}
 	cout << "你已连续3次登录失败,请稍后重试!\n";
+	cleanScreen();
 }
 
 void manager::logOut()
 {
-	ID = "0";
-	password = "0";
+	ID[0] = '\0';
+	password[0] = '\0';
 	rights = 0;
 }
 
@@ -139,15 +142,15 @@ void manager::sale()
 void manager::notification()
 {
 	cout << "**************************通知*****************************\n";
-	char choice;
+	int choice;
 	string line;
 	fstream noti(notifications, ios::in);
 	if(!noti.eof())
 		getline(noti, line, '@');//@消息结束标记
 	else
 	{
-		cout << "无通知,按任意键退出...\n";
-		system("pause");
+		cout << "无通知!\n";
+		cleanScreen();
 		return;
 	}
 	cout << line << endl;
@@ -166,16 +169,14 @@ void manager::notification()
 			break;
 		case 2:
 			initial(tongzhi);
-			cout << "无通知,按任意键退出...\n";
-			system("pause");
+			cout << "无通知!\n";
 			return;
 		case 3:
 			return;
 		}
 	}
 	cout << "已显示全部通知,按任意键退出...\n";
-	system("pause");
-	return;
+	cleanScreen();
 }
 //查看,增加,修改,删除,清空库存.除查看外都需要高级权限
 void manager::viewStock()
@@ -282,7 +283,7 @@ void manager::analyse()
 void manager::user()
 {
 	int choice;
-	string tempID;
+	char tempID[20];
 	manager temp;
 	fstream file(managers, ios::in | ios::out | ios::binary);
 	while (true)
@@ -293,7 +294,7 @@ void manager::user()
 			<< "1.修改密码\n"
 			<< "2.增加用户\n"
 			<< "3.删除用户\n"
-			<< "4.退出";
+			<< "4.退出\n\n$";
 		cin >> choice;
 		switch (choice)
 		{
@@ -305,7 +306,7 @@ void manager::user()
 				do
 				{
 					file.read((char*)&temp, sizeof(manager));
-				} while (temp.ID != ID);
+				} while (strcmp(ID,temp.ID));//串比较,相同返回0
 				cout << "请输入新密码:\n$";
 				cin >> temp.password;
 				file.seekp(-long(sizeof(manager)), ios::cur);
@@ -346,8 +347,8 @@ void manager::user()
 				do
 				{
 					file.read((char*)&temp, sizeof(manager));
-				} while (temp.ID != tempID&&temp.ID!="0");
-				if(temp.ID!="0")
+				} while (strcmp(tempID,temp.ID)&&strlen(temp.ID)!=0);
+				if(strlen(temp.ID) != 0)
 				{
 					temp.rights = 0;
 					file.seekp(-long(sizeof(manager)), ios::cur);
@@ -403,9 +404,7 @@ void initial(int flag)
 		fstream file(managers, ios::out | ios::trunc | ios::binary);
 		file.write((char*)&tempM, sizeof(manager));
 		//初始化成功,按任意键重启程序
-		cout << "初始化成功,请重新启动程序\n"
-			<< "按任意键继续...\n";
-		system("pause");
+		cout << "初始化成功,请重新启动程序\n";
 		exit(0);
 	}
 	case xiaoshou:

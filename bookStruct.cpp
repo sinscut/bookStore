@@ -2,12 +2,12 @@
 #include"bookStruct.h"
 book::book()
 { 
-	TP = "0"; 
-	category = "0"; 
-	name = "0"; 
-	author = "0"; 
-	intro = "0"; 
-	pos = "0"; 
+	TP[0] = '\0'; 
+	category[0] = '\0';
+	name[0] = '\0'; 
+	author[0] = '\0'; 
+	intro[0] = '\0'; 
+	pos[0] = '\0'; 
 	price = 0; 
 	balance = 0; 
 	saled = 0;

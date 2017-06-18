@@ -50,7 +50,7 @@ void guest::inquire()
 			<< "<1>查找书名\n"
 			<< "<2>查找作者\n"
 			<< "<3>显示全部\n"
-			<< "<4>退出";
+			<< "<4>退出\n\n$";
 		cin >> choice;
 		if (choice == 4)
 			return;

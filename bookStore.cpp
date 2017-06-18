@@ -24,6 +24,7 @@ void managerWindow(manager &b)
 			<< "******************************************************\n$";
 		int choice;
 		cin >> choice;
+		system("cls");
 		switch (choice)
 		{
 		default:
@@ -64,6 +65,7 @@ int main()
 			<< "<4>µÇÂ¼\n\n"
 			<< "******************************************************\n$";
 		cin >> choice;
+		system("cls");
 		switch (choice)
 		{
 		default:

@@ -2,8 +2,8 @@
 #include"pubUse.h"
 class manager
 {
-	string ID;
-	string password;
+	char ID[20];
+	char password[20];
 	int rights;//0,未登录,1,普通用户,2,超级用户
 public:
 	manager();

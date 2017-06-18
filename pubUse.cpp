@@ -2,7 +2,7 @@
 //库存文件结束判断
 int endMark(book bookT)
 {
-	if (bookT.TP == "0")
+	if (strlen(bookT.TP)==0)
 		return 1;
 	return 0;
 }
@@ -15,7 +15,7 @@ bool inStock(book toBeFound)
 	do
 	{
 		file.read((char*)&temp, sizeof(book));
-		if (temp.name == toBeFound.name && temp.author == toBeFound.author)
+		if (!strcmp(temp.name, toBeFound.name) && !strcmp(temp.author, toBeFound.author))
 			return true;
 	} while (!endMark(temp));
 	return false;
@@ -28,7 +28,7 @@ int commonFind(int flag)
 {
 	book temp;
 	int none = 1;
-	string answer;//搜索项
+	char answer[20];//搜索项
 	if (flag == cat)
 		cout << "你可以输入以下分类:\n"
 		<< "文学\t艺术\t科技\t工业\n$";
@@ -47,21 +47,21 @@ int commonFind(int flag)
 		default:
 			break;
 		case cat:
-			if (temp.category == answer)
+			if (strcmp(temp.category , answer))
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
 		case name:
-			if (temp.name == answer)
+			if (strcmp(temp.name , answer))
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
 		case author:
-			if (temp.author == answer)
+			if (strcmp(temp.author , answer))
 			{
 				temp.show();
 				none = 0;
@@ -83,17 +83,17 @@ int commonFind(int flag)
 typedef struct findBook
 
 {
-	findBook(string t) : TP(t) {}
-	bool operator()(book p)
+	findBook(char t[20])  {strcpy_s(TP, t); }
+	bool operator()(book p)//检索目标
 	{
 		return (TP == p.TP);
 	}
-	string	TP;
+	char TP[20];//关键字
 }finder;
 //add=1,amend=2,cutOut=3
 void edit(int flag)
 {
-	string tempTP;
+	char tempTP[20];
 	book temp;
 	list<book>  fileOp;
 	list<book>::iterator p;
@@ -114,6 +114,7 @@ void edit(int flag)
 		cout << "录入书籍信息:\n$";
 		temp.set();
 		fileOp.push_back(temp);
+		cout << "增加成功!\n";
 		break;
 	case amend:
 		cout << "输入要修改信息的书号:\n$";

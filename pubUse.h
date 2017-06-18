@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<cstring>
 #include<ctime>
 #include<conio.h>
 #include<cstdlib>
