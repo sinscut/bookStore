@@ -10,34 +10,37 @@ int needToInitialize()
 }
 void managerWindow(manager &b)
 {
-	cout << "*****************书库管理系统(管理员)******************\n\n"
-		<< "请选择操作:\n"
-		<<"<1>销售\n"
-		<<"<2>统计\n"
-		<<"<3>通知中心\n"
-		<<"<4>库存管理\n"
-		<<"<5>用户管理\n"
-		<<"<6>初始化\n"
-		<<"<7>退出\n\n"
-		<< "******************************************************\n$";
-	int choice;
-	cin >> choice;
-	switch (choice)
+	while (true)
 	{
-	default:
-		break;
-	case 1:b.sale(); break;
-	case 2:b.analyse(); break;
-	case 3:b.notification(); break;
-	case 4:b.viewStock(); break;
-	case 5:b.user(); break;
-	case 6:
-		if (b.getRights() == 2)
-			initial(all);
-		break;
-	case 7:b.logOut(); return;
+		cout << "*****************书库管理系统(管理员)******************\n\n"
+			<< "请选择操作:\n"
+			<< "<1>销售\n"
+			<< "<2>统计\n"
+			<< "<3>通知中心\n"
+			<< "<4>库存管理\n"
+			<< "<5>用户管理\n"
+			<< "<6>初始化\n"
+			<< "<7>退出\n\n"
+			<< "******************************************************\n$";
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		default:
+			break;
+		case 1:b.sale(); break;
+		case 2:b.analyse(); break;
+		case 3:b.notification(); break;
+		case 4:b.viewStock(); break;
+		case 5:b.user(); break;
+		case 6:
+			if (b.getRights() == 2)
+				initial(all);
+			break;
+		case 7:b.logOut(); return;
+		}
+		cleanScreen();
 	}
-	cleanScreen();
 }
 
 int main()

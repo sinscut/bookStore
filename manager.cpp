@@ -35,6 +35,8 @@ void manager::logIn()
 		rights = 2;
 		file.seekp(-long(sizeof(manager)), ios::cur);
 		file.write((char*)this, sizeof(manager));
+		manager tempM;
+		file.write((char*)&tempM, sizeof(manager));
 		cout << "配置成功!";
 		cout << "按任意键返回上一级...\n";
 		system("pause");
