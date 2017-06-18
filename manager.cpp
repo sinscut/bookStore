@@ -58,6 +58,7 @@ void manager::logIn()
 			}
 		} while (temp.rights != 0);
 		cout << "用户名或密码错误!\n";
+		num--;
 	}
 	cout << "你已连续3次登录失败,请稍后重试!\n";
 }

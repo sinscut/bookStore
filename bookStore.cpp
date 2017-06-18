@@ -18,7 +18,7 @@ void managerWindow(manager &b)
 		<<"<4>库存管理\n"
 		<<"<5>用户管理\n"
 		<<"<6>初始化\n"
-		<<"<7>退出\n"
+		<<"<7>退出\n\n"
 		<< "******************************************************\n$";
 	int choice;
 	cin >> choice;
@@ -46,8 +46,8 @@ int main()
 	{
 		cout << "文件丢失或首次使用, 正在初始化...\n";
 		initial(all);
+		cleanScreen();
 	}
-	cleanScreen();
 	guest a;
 	manager b;
 	int choice;
@@ -64,13 +64,14 @@ int main()
 		switch (choice)
 		{
 		default:
+			cout << "输入错误!\n";
 			break;
 		case 1:
 			a.inquire(); break;
 		case 2:
 			a.want(); break;
 		case 3:
-			cout << "使用查询功能可以查询书库中是否有你需要的书籍.\n如果没有,可以使用预定功能告诉我们,我们会尽快上架";
+			cout << "使用查询功能可以查询书库中是否有你需要的书籍.\n如果没有,可以使用预定功能告诉我们,我们会尽快上架\n";
 			break;
 		case 4:
 			b.logIn();

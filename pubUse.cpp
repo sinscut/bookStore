@@ -157,7 +157,6 @@ void edit(int flag)
 //	清屏
 void cleanScreen()
 {
-	cout << "按任意键继续...";
 	system("pause");
 	system("cls");
 }
