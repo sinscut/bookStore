@@ -36,7 +36,8 @@ int commonFind(int flag)
 		cout << "$输入书名:";
 	if (flag == author)
 		cout << "$输入作者名:";
-	cin >> answer;
+	if(flag!=all)
+		cin >> answer;
 	fstream file(stock, ios::in | ios::binary);//打开库存文件
 	file.seekg(0, ios::beg);
 	do
@@ -47,21 +48,21 @@ int commonFind(int flag)
 		default:
 			break;
 		case cat:
-			if (strcmp(temp.category , answer))
+			if (!strcmp(temp.category , answer))
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
 		case name:
-			if (strcmp(temp.name , answer))
+			if (!strcmp(temp.name , answer))
 			{
 				temp.show();
 				none = 0;
 			}
 			break;
 		case author:
-			if (strcmp(temp.author , answer))
+			if (!strcmp(temp.author , answer))
 			{
 				temp.show();
 				none = 0;
@@ -86,7 +87,7 @@ typedef struct findBook
 	findBook(char t[20])  {strcpy_s(TP, t); }
 	bool operator()(book p)//检索目标
 	{
-		return (TP == p.TP);
+		return (!strcmp(TP,p.TP));
 	}
 	char TP[20];//关键字
 }finder;
@@ -123,11 +124,17 @@ void edit(int flag)
 		p = find_if(fileOp.begin(), fileOp.end(), finder(tempTP));//find_if()第三个参数是函数指针(函数名)
 		if (p != fileOp.end())
 		{
-			cout << "只能修改价格(当前价格为:" << p->price << "),请输入价格:\n$";
+			cout << "只能修改价格和库存(当前价格为:" << p->price << "库存为:" << p->balance << ")";
+			cout<<"请输入价格:\n$";
 			int tempPrice;
 			cin >> tempPrice;
+			cout << "请输入库存:\n$";
+			int tempB;
+			cin >> tempB;
 			p->price = tempPrice;
+			p->balance = tempB;
 			cout << "修改价格为" << p->price << "成功!\n";
+			cout << "修改库存为" << p->balance << "成功!\n";
 		}
 		else cout << "书号错误,请重试.\n";
 		break;

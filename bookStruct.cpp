@@ -14,14 +14,14 @@ book::book()
 }
 void book::show()//显示详细信息,与其他内容以空行分割
 {
-	cout << "\n类别: " << category << "书名: " << "《" << name << "》" << "作者: " << author << endl;
-	cout << "书号: " << TP << "位置: " << pos << "价格:" << price << endl;
+	cout << "\n类别: " << category << " 书名: " << "《" << name << "》" << " 作者: " << author << endl;
+	cout << "书号: " << TP << " 位置: " << pos << " 价格:" << price << endl;
 	cout << "简介: " << intro << "\n\n";
 	return;
 }
 void book::showSimple()
 {
-	cout << "\n书号: " << TP << "书名: " << "《" << name << "》" << "作者: " << author << endl;
+	cout << "\n书号: " << TP << " 书名: " << "《" << name << "》" << " 作者: " << author <<" 价格: "<<price<<" 库存:"<<balance<< endl;
 }
 void book::set()
 {

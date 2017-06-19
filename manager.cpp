@@ -108,10 +108,11 @@ void manager::sale()
 				if (num > 0 && bookTemp.balance >= num)
 				{
 					bookTemp.balance -= num;
+					bookTemp.saled += num;
 					string now;
 					getTime(now);//获取时间戳
 					fstream sales(saleLogs, ios::app);
-					sales << now << "卖出 " << bookTemp.name << " " << num << "本." << "售价 " << bookTemp.price << "@";
+					sales << now << "卖出 《" << bookTemp.name << "》 " << num << "本 " << "单价: " << bookTemp.price << "@";
 					if (bookTemp.balance == 0)
 					{
 						fstream noti(notifications, ios::app);
@@ -175,8 +176,7 @@ void manager::notification()
 			return;
 		}
 	}
-	cout << "已显示全部通知,按任意键退出...\n";
-	cleanScreen();
+	cout << "已显示全部通知！\n";
 }
 //查看,增加,修改,删除,清空库存.除查看外都需要高级权限
 void manager::viewStock()
@@ -186,7 +186,7 @@ void manager::viewStock()
 	while(true)
 	{
 		cout << "***************************库存管理****************************\n";
-		cout << "请选择操作:"//不如先全部读到链表里
+		cout << "请选择操作:\n"//不如先全部读到链表里
 			<< "1:查看\n"
 			<< "2:增加\n"
 			<< "3:修改\n"
@@ -242,19 +242,20 @@ void manager::analyse()
 		file.read((char*)&temp, sizeof(book));
 		if (popular.saled < temp.saled)
 			popular = temp;
-		sales += temp.saled*temp.balance;
-		if (temp.category == "文学")
-			literature++;
-		if (temp.category == "艺术")
-			art++;
-		if (temp.category == "科技")
-			technology++;
-		if (temp.category == "工业")
-			industry++;
+		sales += temp.saled*temp.price;
+		if (!strcmp(temp.category, "文学"))
+			literature += temp.saled;
+		if (!strcmp(temp.category, "艺术"))
+			art += temp.saled;
+		if (!strcmp(temp.category, "科技"))
+			technology += temp.saled;
+		if (!strcmp(temp.category, "工业"))
+			industry += temp.saled;
 	} while (!endMark(temp));
 	cout << "总销售额为:\t" << sales << endl;
-	cout << "最畅销书籍为:\n";
+	cout << "最畅销书籍为:";
 	popular.showSimple();
+	cout << "该书总计售出" << popular.saled << "本!\n";
 	cout << "最畅销分类为:";
 	//求4个变量的最大值,再对应到分类T^T
 	int temp1 = literature, temp2 = technology;
@@ -272,6 +273,7 @@ void manager::analyse()
 		cout << "科技\t";
 	if (temp1 == industry)
 		cout << "工业\t";
+	cout << "总计售出" << temp1 << "本!\n";
 	cout << endl;
 	cout << "销售日志在d:\\salelog.txt, 要浏览吗?(0/1)\n";
 	int choice;
@@ -325,7 +327,7 @@ void manager::user()
 				cout << "配置权限,1为普通用户,2为超级用户\n$";
 			L:
 				cin >> choice;
-				if (choice != 1 || choice != 2)
+				if (choice != 1 && choice != 2)
 				{
 					cout << "输入错误!\n$请重新输入:";
 					goto L;
